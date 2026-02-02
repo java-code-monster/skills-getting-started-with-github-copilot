@@ -190,6 +190,13 @@ class BudgetTracker {
     }
     
     initChart() {
+        // Check if Chart.js is available
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js is not loaded. Chart visualization will not be available.');
+            this.chart = null;
+            return;
+        }
+        
         const ctx = document.getElementById('budgetChart').getContext('2d');
         
         this.chart = new Chart(ctx, {
@@ -224,6 +231,11 @@ class BudgetTracker {
     }
     
     updateChart() {
+        // Only update if Chart.js is available
+        if (!this.chart) {
+            return;
+        }
+        
         const categoryTotals = this.getCategoryTotals();
         const labels = Object.keys(categoryTotals);
         const data = Object.values(categoryTotals);
